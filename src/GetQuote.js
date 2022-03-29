@@ -19,8 +19,8 @@ class Quote extends React.Component {
             reservationId:'',
             sourceAmount:'',
             destAmount:'',
-            
-        
+            walletOrder:'',
+            paymentToken:''
         };
 
         this.amountChange = this.amountChange.bind(this);
@@ -56,7 +56,10 @@ class Quote extends React.Component {
             }
         } else if (prevState.reservationId !== this.state.reservationId){
             this.props.loadQuote(this.state)
-            this.props.onRouteChange('payment');
+            this.createOrder();
+        } else if (prevState.walletOrder !== this.state.walletOrder){
+            this.props.loadOrder(this.state.walletOrder)
+            this.props.onRouteChange('processing');
         }
 
     };
@@ -105,7 +108,7 @@ class Quote extends React.Component {
 
     createReservation = async () =>{
         const reservation = await axios.post(`https://api.testwyre.com/v3/orders/reserve`, {
-            "referrerAccountId": "AC_6JLB7GQTA2Z"
+            "referrerAccountId": "AC_Y4GWDD4WCPL"
         }, {headers:{
             'Content-Type': 'application/json',
             'Authorization': auth}
@@ -117,8 +120,31 @@ class Quote extends React.Component {
     };
 
     handleSubmit(event){
+        let token = document.getElementById('paymentToken').value
+        this.setState({paymentToken: token});
         this.createReservation();
         event.preventDefault();
+    };
+
+    createOrder = async () => {
+        const body = "{\n            \"amount\": \"" + this.state.amount + "\",\n            \"sourceCurrency\": \"USD\",\n            \"destCurrency\": \"" +this.state.currency+ "\",\n            \"dest\": \"" + this.state.srn + this.state.address + "\",\n            \"givenName\": \"Joe\",\n            \"familyName\": \"Smith\",\n            \"phone\": \"561-302-7111\",\n            \"email\": \"ben.l@sendwyre.com\",\n            \"address\": {\n                \"street1\": \"123 Test Ave\",\n                \"city\": \"Portland\",\n                \"state\": \"OR\",\n                \"postalCode\": \"97209\",\n                \"country\": \"US\"\n            },\n            \"debitCard\": {\n                \"number\": \"{{credit_card_number}}\",\n                \"year\": \"{{credit_card_year}}\",\n                \"month\": \"{{credit_card_month}}\",\n                \"cvv\": \"{{credit_card_cvv}}\"\n            },\n            \"reservationId\": \"" +this.state.reservationId+"\",\n            \"referrerAccountId\": \"AC_Y4GWDD4WCPL\",\n            \"referenceId\": \"AC_Y4GWDD4WCPL\",\n            \"ipAddress\": \"1.1.1.1\"\n        }"
+        console.log(body);
+        const cardorder = await axios.post('/api/receivers/BtK2Gwf5qWKi3VUkK62kZiI588V/deliver.json', {
+        "delivery": {
+            "payment_method_token": this.state.paymentToken,
+            "url": "https://api.testwyre.com/v3/debitcard/process/partner",
+            "headers": "Content-Type: application/json\nAuthorization: Bearer SK-8QJCQUTJ-VZFMFUF8-Z6MHPMDB-47BCR9PB\n'Access-Control-Allow-Origin': '*'",
+            "body": body}
+        },{headers:{
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Basic RFBPWVRkbmZhdk1WNE9NTjQzQW56N1VkeFVxOnRvZERXa0FFbGx6bFppa2dscU14V21yZmFsbEhWVmVJYk56SGJmNElPYTVOYlhlM1EwNjVIcDc2dnRiZlo0UE4='}
+        }
+        );
+
+        let wyreResponse = JSON.parse(cardorder.data.transaction.response.body);
+        this.setState({walletOrder: wyreResponse.id})
+
     };
 
 
@@ -154,10 +180,10 @@ class Quote extends React.Component {
                 <h1>Card Processing Form</h1>
                 <p> Card processing Demo</p>
 
-                <form onSubmit={this.handleSubmit}>
+                <form id="quoteForm" onSubmit={this.handleSubmit}>
                     <label>
                         currency:
-                        <select value = { this.state.currency} onChange={this.currencyChange}>
+                        <select id="currencySelect" value = { this.state.currency} onChange={this.currencyChange}>
                             <option value="BTC">BTC</option>
                             <option value="ETH">ETH</option>
                         </select>
@@ -165,15 +191,16 @@ class Quote extends React.Component {
                     <br />
                     <label>
                         destination address:
-                        <input type= "text" value ={this.state.address} onChange={this.addressChange} required/>
+                        <input id="destAddress" type= "text" value ={this.state.address} onChange={this.addressChange} required/>
                     </label>
                     <br />
                     <label>
                         amount in usd:
-                        <input type= "number" value ={this.state.amount} onChange={this.amountChange} required/>
+                        <input id="usd" type= "number" value ={this.state.amount} onChange={this.amountChange} required/>
                     </label>
                     <br />
-                    <input type="submit" value="purchase with card" />
+                    <input id="paymentToken" type="hidden" value="token" />
+                    <input type="button" value="Enter Payment Info" id="ready-to-pay"/>
                     <br/>
 
                 </form>

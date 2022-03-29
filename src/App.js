@@ -2,7 +2,6 @@ import { render } from "@testing-library/react";
 import React, {useState} from "react";
 import axios from 'axios';
 import Quote from './GetQuote';
-import Payment from './Payment';
 import Processing from './Processing';
 
 const initialState = {
@@ -51,11 +50,7 @@ class App extends React.Component {
 
         if (this.state.route === 'quote'){
             return(
-                <Quote onRouteChange={this.onRouteChange} loadQuote={this.loadQuote}/>
-            )
-        } else if (this.state.route === 'payment'){
-            return(
-                <Payment onRouteChange={this.onRouteChange} {...this.state} loadOrder={this.loadOrder}/>
+                <Quote onRouteChange={this.onRouteChange} loadQuote={this.loadQuote} loadOrder={this.loadOrder}/>
             )
         }
         else if (this.state.route === 'processing'){

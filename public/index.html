@@ -24,7 +24,37 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Spreedly Card Processing App</title>
+    <script src="https://core.spreedly.com/iframe/express-3.min.js" id="express-script"></script>
+    <script type="text/javascript">
+      var environmentKey = "DPOYTdnfavMV4OMN43Anz7UdxUq"
+      var options = {
+    company_name: "Spreedly/Wyre",
+    sidebar_top_description: "This is where you can buy all your food and most of your stuff",
+    sidebar_bottom_description: "destAmount",
+    amount: "TBD"}
+
+    var enableButton = function(){
+      document.getElementById("ready-to-pay").disabled = false;
+      document.getElementById("ready-to-pay").addEventListener("click", function(){
+        SpreedlyExpress.setDisplayOptions({
+          sidebar_bottom_description: "Get some " + document.getElementById('currencySelect').value,
+          amount: "$" + document.getElementById('usd').value
+        });
+        SpreedlyExpress.openView();})
+    }
+    SpreedlyExpress.onInit(enableButton);
+
+    var handlePaymentToken = function(token, formData) {
+      var tokenField = document.getElementById('paymentToken');
+      tokenField.setAttribute("value", token);
+      var quoteForm = document.getElementById('quoteForm');
+      quoteForm.requestSubmit();
+    }
+    SpreedlyExpress.onPaymentMethod(handlePaymentToken);
+
+    SpreedlyExpress.init(environmentKey,options);
+  </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
