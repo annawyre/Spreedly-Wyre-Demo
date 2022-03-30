@@ -133,12 +133,12 @@ class Quote extends React.Component {
         "delivery": {
             "payment_method_token": this.state.paymentToken,
             "url": "https://api.testwyre.com/v3/debitcard/process/partner",
-            "headers": "Content-Type: application/json\nAuthorization: Bearer SK-8QJCQUTJ-VZFMFUF8-Z6MHPMDB-47BCR9PB\n'Access-Control-Allow-Origin': '*'",
+            "headers": "Content-Type: application/json\nAuthorization: Bearer \n'Access-Control-Allow-Origin': '*'",
             "body": body}
         },{headers:{
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Authorization': 'Basic RFBPWVRkbmZhdk1WNE9NTjQzQW56N1VkeFVxOnRvZERXa0FFbGx6bFppa2dscU14V21yZmFsbEhWVmVJYk56SGJmNElPYTVOYlhlM1EwNjVIcDc2dnRiZlo0UE4='}
+            'Authorization': 'Basic '}
         }
         );
 
