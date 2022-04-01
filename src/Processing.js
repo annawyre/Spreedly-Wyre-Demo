@@ -15,7 +15,8 @@ class Processing extends React.Component {
             cardAuth: false,
             smsCode: '',
             cardCode: '',
-            reservationId: this.props.reservationId
+            reservationId: this.props.reservationId,
+            authorization3dsUrl: ''
         }
 
         this.smsChange = this.smsChange.bind(this);
@@ -32,6 +33,9 @@ class Processing extends React.Component {
 
             let res = (orderStatus.data);
             this.setState({woStatus : res.status})
+            if (this.state.woStatus === "RUNNING_CHECKS") {
+                this.getAuth()
+            }
             this.setState({authRequest: res.authCodesRequested})
     }
 
@@ -44,6 +48,7 @@ class Processing extends React.Component {
             let res = (authStatus.data);
             this.setState({smsAuth : res.smsNeeded})
             this.setState({cardAuth : res.card2faNeeded})
+            this.setState({authorization3dsUrl : res.authorization3dsUrl})
 
     }
 
@@ -89,6 +94,11 @@ class Processing extends React.Component {
         }
         if (prevState.authRequest !== this.state.authRequest){
             this.getAuth()
+        }
+        if (prevState.authorization3dsUrl !== this.state.authorization3dsUrl){
+            if (this.state.authorization3dsUrl !== null) {
+                window.open(this.state.authorization3dsUrl)
+            }
         }
     }
 

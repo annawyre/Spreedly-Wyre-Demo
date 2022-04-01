@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const auth = `Bearer ${process.env.REACT_APP_SECRET_KEY}`;
+const spreedlyAuth = ${process.env.SPREEDLY_SECRET_KEY};
 
 class Quote extends React.Component {
     constructor(props){
@@ -127,18 +128,18 @@ class Quote extends React.Component {
     };
 
     createOrder = async () => {
-        const body = "{\n            \"amount\": \"" + this.state.amount + "\",\n            \"sourceCurrency\": \"USD\",\n            \"destCurrency\": \"" +this.state.currency+ "\",\n            \"dest\": \"" + this.state.srn + this.state.address + "\",\n            \"givenName\": \"Joe\",\n            \"familyName\": \"Smith\",\n            \"phone\": \"561-302-7111\",\n            \"email\": \"ben.l@sendwyre.com\",\n            \"address\": {\n                \"street1\": \"123 Test Ave\",\n                \"city\": \"Portland\",\n                \"state\": \"OR\",\n                \"postalCode\": \"97209\",\n                \"country\": \"US\"\n            },\n            \"debitCard\": {\n                \"number\": \"{{credit_card_number}}\",\n                \"year\": \"{{credit_card_year}}\",\n                \"month\": \"{{credit_card_month}}\",\n                \"cvv\": \"{{credit_card_cvv}}\"\n            },\n            \"reservationId\": \"" +this.state.reservationId+"\",\n            \"referrerAccountId\": \"AC_Y4GWDD4WCPL\",\n            \"referenceId\": \"AC_Y4GWDD4WCPL\",\n            \"ipAddress\": \"1.1.1.1\"\n        }"
+        const body = "{\n            \"amount\": \"" + this.state.amount + "\",\n            \"sourceCurrency\": \"USD\",\n            \"destCurrency\": \"" +this.state.currency+ "\",            \n\"dest\": \"" + this.state.srn + this.state.address + "\",\n            \"givenName\": \"Joe\",\n            \"familyName\": \"Smith\",\n            \"phone\": \"561-302-7111\",\n            \"email\": \"ben.l@sendwyre.com\",\n            \"address\": {\n                \"street1\": \"123 Test Ave\",\n                \"city\": \"Portland\",\n                \"state\": \"OR\",\n                \"postalCode\": \"97209\",\n                \"country\": \"US\"\n            },\n            \"debitCard\": {\n                \"number\": \"{{credit_card_number}}\",\n                \"year\": \"{{credit_card_year}}\",\n                \"month\": \"{{credit_card_month}}\",\n                \"cvv\": \"555\"\n            },\n            \"reservationId\": \"" +this.state.reservationId+"\",\n            \"referrerAccountId\": \"AC_Y4GWDD4WCPL\",\n            \"referenceId\": \"AC_Y4GWDD4WCPL\",\n            \"ipAddress\": \"1.1.1.1\"\n        }"
         console.log(body);
         const cardorder = await axios.post('/api/receivers/BtK2Gwf5qWKi3VUkK62kZiI588V/deliver.json', {
         "delivery": {
             "payment_method_token": this.state.paymentToken,
             "url": "https://api.testwyre.com/v3/debitcard/process/partner",
-            "headers": "Content-Type: application/json\nAuthorization: Bearer \n'Access-Control-Allow-Origin': '*'",
+            "headers": "Content-Type: application/json\nAuthorization: " + auth + "\n'Access-Control-Allow-Origin': '*'",
             "body": body}
         },{headers:{
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Authorization': 'Basic '}
+            'Authorization': 'Basic ' + spreedlyAuth}
         }
         );
 

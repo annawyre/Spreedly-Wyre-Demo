@@ -39,13 +39,18 @@
       document.getElementById("ready-to-pay").addEventListener("click", function(){
         SpreedlyExpress.setDisplayOptions({
           sidebar_bottom_description: "Get some " + document.getElementById('currencySelect').value,
-          amount: "$" + document.getElementById('usd').value
+          amount: "$" + document.getElementById('usd').value,
+          cvv_label: "Does this thing work? (CVV)"
         });
         SpreedlyExpress.openView();})
     }
     SpreedlyExpress.onInit(enableButton);
 
     var handlePaymentToken = function(token, formData) {
+      SpreedlyExpress.setRecache(token, {
+        "card_type": "visa"
+      });
+
       var tokenField = document.getElementById('paymentToken');
       tokenField.setAttribute("value", token);
       var quoteForm = document.getElementById('quoteForm');
