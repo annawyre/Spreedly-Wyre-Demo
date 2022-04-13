@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const auth = `Bearer ${process.env.REACT_APP_SECRET_KEY}`;
-const spreedlyAuth = ${process.env.SPREEDLY_SECRET_KEY};
+const spreedlyAuth = `Basic ${process.env.REACT_APP_SPREEDLY_KEY}`;
 
 class Quote extends React.Component {
     constructor(props){
@@ -139,7 +139,7 @@ class Quote extends React.Component {
         },{headers:{
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Authorization': 'Basic ' + spreedlyAuth}
+            'Authorization': spreedlyAuth}
         }
         );
 
@@ -178,8 +178,7 @@ class Quote extends React.Component {
 
         return (
             <div className="container">
-                <h1>Card Processing Form</h1>
-                <p> Card processing Demo</p>
+                <h1>Spreedly Express Card Processing Demo</h1>
 
                 <form id="quoteForm" onSubmit={this.handleSubmit}>
                     <label>
