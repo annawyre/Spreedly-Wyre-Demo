@@ -144,7 +144,7 @@ class Quote extends React.Component {
       '",            \n"dest": "' +
       this.state.srn +
       this.state.address +
-      '",\n            "givenName": "Joe",\n            "familyName": "Smith",\n            "phone": "561-302-7111",\n            "email": "test@sendwyre.com",\n            "address": {\n                "street1": "123 Test Ave",\n                "city": "Portland",\n                "state": "OR",\n                "postalCode": "97209",\n                "country": "US"\n            },\n            "debitCard": {\n                "number": "{{credit_card_number}}",\n                "year": "{{credit_card_year}}",\n                "month": "{{credit_card_month}}",\n                "cvv": "555"\n            },\n            "reservationId": "' +
+      '",\n            "givenName": "Joe",\n            "familyName": "Smith",\n            "phone": "561-302-5555",\n            "email": "test@sendwyre.com",\n            "address": {\n                "street1": "123 Test Ave",\n                "city": "Portland",\n                "state": "OR",\n                "postalCode": "97209",\n                "country": "US"\n            },\n            "debitCard": {\n                "number": "{{credit_card_number}}",\n                "year": "{{credit_card_year}}",\n                "month": "{{credit_card_month}}",\n                "cvv": "555"\n            },\n            "reservationId": "' +
       this.state.reservationId +
       '",\n            "referrerAccountId": "ACCOUNT_ID",\n            "referenceId": "ACCOUNT_ID",\n            "ipAddress": "1.1.1.1"\n        }';
     console.log(body);
