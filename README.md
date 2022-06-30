@@ -6,6 +6,15 @@ This project was built on top of [Wyre's APIs](https://docs.sendwyre.com/).
 
 dash.testwyre.com
 
+## Run Repo
+`git clone https://github.com/annawyre/Spreedly-Wyre-Demo.git`
+
+`cd ~/Spreedly-Wyre-Demo`
+
+`npm install`
+
+`npm start`
+
 ## White Label Card Processing Demo
 
 This is solely for demo purposes.<br />
