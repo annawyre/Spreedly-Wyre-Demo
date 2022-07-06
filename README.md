@@ -22,11 +22,11 @@ Add your Wyre Token and Spreedly Key
 
 ## Add Your Account Id
 
-Search "ACCOUNT_ID", replace with your Wyre Account Id
+In GetQuote.js, search "ACCOUNT_ID", replace with your Wyre Account Id
 
 ## Add Your Receiver Token
 
-Search "YOUR_RECEIVER_TOKEN", replace with your Receiver Token
+In GetQuote.js, search "YOUR_RECEIVER_TOKEN", replace with your Receiver Token
 
 
 ## White Label Card Processing Demo
